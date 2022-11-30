@@ -4,8 +4,8 @@ import {getAll} from "../api";
 
 export const Todos:FC = () => {
     const [page, setPage] = useState<number>(1)
-    const [limit, setLimit] = useState<number>(10);
-    const {isLoading, data:response, error} = useQuery(['get-todos', page, limit], () => getAll.getTodos(page, limit))
+    const [limit] = useState<number>(10);
+    const  {data:response} = useQuery(['get-todos', page, limit], () => getAll.getTodos(page, limit))
 
     const pagination = Array.from(Array(response?.data && limit ).keys()).map(element => {
         return <button onClick={() => setPage(element + 1)} key={element}>{element + 1}</button>
