@@ -1,13 +1,22 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {useQuery} from "react-query";
 import {getAll} from "../api";
 
 export const Todos:FC = () => {
-    const {isLoading, data:response, error} = useQuery('get-todos', () => getAll.getTodos())
+    const [page, setPage] = useState<number>(1)
+    const [limit, setLimit] = useState<number>(10);
+    const {isLoading, data:response, error} = useQuery('get-todos', () => getAll.getTodos(page, limit))
+
+    const pagination = Array.from(Array(response?.data && limit ).keys()).map(element => {
+        return <button onClick={() => setPage(element + 1)} key={element}>{element + 1}</button>
+    })
 
     return (
         <div>
            Todos
+            {response?.data.map(todo =>
+                <div key={todo.id}>{todo.id} {todo.title} <input type={'checkbox'}/></div>)}
+            {pagination}
         </div>
     );
 };
