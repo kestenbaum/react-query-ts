@@ -13,6 +13,8 @@ const queryClient = new QueryClient({
             refetchOnReconnect: false,
             retry: 1,
             staleTime: 5 * 1000,
+            refetchOnMount: "always"
+
         },
     }
 })
