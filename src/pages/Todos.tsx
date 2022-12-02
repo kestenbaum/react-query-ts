@@ -15,7 +15,15 @@ export const Todos:FC = () => {
         <div>
            Todos
             {response?.data.map(todo =>
-                <div key={todo.id}>{todo.id} {todo.title} <input type={'checkbox'}/></div>)}
+                <div
+                    key={todo.id}
+                >{todo.id} {todo.title}
+                    <input
+                        type={'checkbox'}
+                        checked={todo.completed}
+                    />
+                </div>
+            )}
             {pagination}
         </div>
     );
