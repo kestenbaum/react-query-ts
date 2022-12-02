@@ -6,8 +6,8 @@ export interface Todos {
     "completed": boolean
 }
 
-export interface Posts {
-    "userId": number,
+export interface Post {
+    "userId": number | string,
     "id": number | string,
     "title": string,
     "body": string

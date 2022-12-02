@@ -1,15 +1,14 @@
 import React, {FC, useState} from 'react';
-import {useQuery} from "react-query";
+import {useMutation, useQuery, useQueryClient} from "react-query";
 import {getAll} from "../api";
 import {nanoid} from "nanoid";
-
 
 export const Posts:FC = () => {
     const [page, setPage] = useState<number>(1)
     const [limit] = useState<number>(10)
     const [title, setTitle] = useState<string>('')
     const [description, setDescription] = useState<string>()
-
+    const queryClient = useQueryClient();
     const {data:response} = useQuery(['get-posts', page, limit], () => getAll.getPosts(page, limit))
 
     const pagination = Array.from(Array(response?.data && limit ).keys()).map(element => {
@@ -25,7 +24,9 @@ export const Posts:FC = () => {
         }
         console.log(createNewPost)
     }
+    const {mutate:deletePost} = useMutation(['delete', 'get-posts'], (id:number | string) => getAll.deletePost(id), {
 
+    })
     return (
         <div>
             <form>
@@ -52,6 +53,13 @@ export const Posts:FC = () => {
                 <div>Number Post: {post.id}</div>
                 <div>Title: {post.title}</div>
                 <div>Description: {post.body}</div>
+                <button>open</button>
+                <button
+                    onClick={() => deletePost(String(post.id))}
+                    type={"button"}
+                >
+                    delete
+                </button>
             </div>)}
 
             {pagination}
